@@ -15,8 +15,23 @@ import androidx.compose.ui.unit.dp
 import java.util.UUID
 
 private val Measurable.depth: Int
-    get() = (parentData as VerticalThreadItemDepth).depth
+    get() = (parentData as? VerticalThreadItemDepth)?.depth ?: 1
 
+/**
+ * A layout composable that places its children in a form of a "thread" like a list of comments and the replies on each comment respectively.
+ *
+ * @see VerticalThreadScope.depth
+ *
+ * @param items the list of items to be displayed.
+ * @param modifier the modifier to be applied to the layout.
+ * @param itemPadding the padding of each item.
+ * @param decoration the decoration to be drawn next to any item that has a depth greater than or equal to 2,
+ * Also, it takes the current thread item as parameter, so you can customize the decoration for every item.
+ *
+ * Example usage:
+ *
+ * @sample
+ */
 @Composable
 public fun <T> VerticalThread(
     items: List<T>,

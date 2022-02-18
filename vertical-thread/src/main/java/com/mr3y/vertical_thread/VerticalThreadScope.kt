@@ -8,9 +8,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.unit.Density
 
+/**
+ * Receiver Scope for the children of [VerticalThread]
+ */
 @LayoutScopeMarker
 @Immutable
 public interface VerticalThreadScope {
+    /**
+     * Specify the element's depth within the thread.
+     * The first element in any thread has a depth of 1, the direct child of that element has a depth of 2
+     * and in turn the direct child of that child has a depth of 3 and so on...
+     * For any element, the depth cannot be less than 1.
+     */
     @Stable
     public fun Modifier.depth(@IntRange(from = 1) num: Int): Modifier
 }
