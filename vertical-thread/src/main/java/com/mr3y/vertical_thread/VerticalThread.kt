@@ -56,7 +56,7 @@ public fun <T> VerticalThread(
                     for (i in itemIndex - 1 downTo 0) {
                         val currDepth = itemPlaceablesWithDepth[i].second
                         if (currDepth < 2) break
-                        if (currDepth == depth || prevDepth == currDepth) continue
+                        if (currDepth >= depth || prevDepth == currDepth) continue
                         prevDepth = currDepth
                         val prevDecorationPlaceable = subcompose(UUID.randomUUID()) {
                             decoration(items[i])
@@ -65,25 +65,31 @@ public fun <T> VerticalThread(
                         prevDecorationOffsetX -= startPadding
                     }
                 }
+                val decorationPlaceable = subcompose(itemPlaceable.hashCode()) {
+                    decoration(items[itemIndex])
+                }.single().measure(decorationConstraints)
                 when {
                     depth > 1 && depth > parentItemDepth -> {
-                        val decorationPlaceable = subcompose(itemPlaceable.hashCode()) {
-                            decoration(items[itemIndex])
-                        }.single().measure(decorationConstraints)
-
                         drawAscendantsDecorators(nextDecorationOffsetX - startPadding)
                         decorationPlaceable.placeRelative(nextDecorationOffsetX, decorationOffsetY)
                         itemPlaceable.placeRelative(nextDecorationOffsetX + startPadding, itemOffsetY)
                         nextDecorationOffsetX += startPadding
                     }
                     depth != 1 && depth == parentItemDepth -> {
-                        val decorationPlaceable = subcompose(itemPlaceable.hashCode()) {
-                            decoration(items[itemIndex])
-                        }.single().measure(decorationConstraints)
-
                         drawAscendantsDecorators(nextDecorationOffsetX - (2 * startPadding))
                         decorationPlaceable.placeRelative(nextDecorationOffsetX - startPadding, decorationOffsetY)
                         itemPlaceable.placeRelative(nextDecorationOffsetX, itemOffsetY)
+                    }
+                    depth != 1 && depth < parentItemDepth -> {
+                        var tempDepth = parentItemDepth
+                        while (depth <= tempDepth) {
+                            nextDecorationOffsetX -= startPadding
+                            tempDepth--
+                        }
+                        drawAscendantsDecorators(nextDecorationOffsetX - startPadding)
+                        decorationPlaceable.placeRelative(nextDecorationOffsetX, decorationOffsetY)
+                        itemPlaceable.placeRelative(nextDecorationOffsetX + startPadding, itemOffsetY)
+                        nextDecorationOffsetX += startPadding
                     }
                     else -> {
                         itemPlaceable.placeRelative(startPadding, itemOffsetY)
