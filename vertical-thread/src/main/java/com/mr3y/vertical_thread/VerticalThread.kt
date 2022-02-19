@@ -28,9 +28,7 @@ private val Measurable.depth: Int
  * @param decoration the decoration to be drawn next to any item that has a depth greater than or equal to 2,
  * Also, it takes the current thread item as parameter, so you can customize the decoration for every item.
  *
- * Example usage:
- *
- * @sample
+ * @sample com.mr3y.compose_verticalthread.ThreadPreviewLTR()
  */
 @Composable
 public fun <T> VerticalThread(
