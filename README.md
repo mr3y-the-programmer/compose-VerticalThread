@@ -1,7 +1,7 @@
 # Compose-VerticalThread
 A layout composable that places its children in a form of a "thread" like reddit's threads.  
 ## Demo
-![VerticalThread Demo](https://github.com/mr3y-the-programmer/compose-VerticalThread/blob/main/sample/vertical_thread_demo.mp4)
+![VerticalThread Demo](https://github.com/mr3y-the-programmer/compose-VerticalThread/blob/main/sample/vertical_thread_demo.mov)
 ## Usage
 ```kotlin
 VerticalThread(
